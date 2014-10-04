@@ -1,0 +1,17 @@
+{
+  "name": {
+    "first": "Bruce",
+    "last": "Wayne",
+    "full": "Bruce Wayne"
+  },
+  "address": {
+    "home": {
+      "street": "1007 Mountain Drive",
+      "city": "Gotham"
+    }
+  },
+  "emails": [
+    "batman@gmail.com",
+    "batman@yahoo.com"
+  ]
+}

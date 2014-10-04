@@ -1,0 +1,121 @@
+#!/usr/bin/env node
+"use strict";
+
+
+//
+//  Dependencies
+//
+var fs = require('fs');
+var program = require('commander');
+var pkg = require('../package.json');
+var json = require('..');
+
+
+
+//
+//  Command Line Options
+//
+program
+  .version(pkg.version)
+  .usage('[srcFile] [key] [value] [destFile]')
+  .on('--help', function () {
+    
+    console.log('  Examples:');
+    console.log();
+    console.log('    jsconfig package.json version                    get the version from package.json');
+    console.log('    jsconfig package.json version 0.1.0              set version');
+    console.log('    jsconfig package.json keywords                   get keywords');
+    console.log('    jsconfig package.json keywords[] foo             add new keyword "foo"');
+    console.log('    jsconfig package.json keywords[0] foo            modify first keyword to "foo"');
+    console.log('    jsconfig package.json description foo bar.json   modify description to foo and save into file bar.json');
+    console.log();
+    
+  })
+  .parse(process.argv);
+
+
+
+//
+//  Format data for displaying in console
+//
+var display = function (data) {
+
+  if (typeof data == 'object') {
+    console.log(JSON.stringify(data, null, 2));    
+  }
+  else {
+    console.log(data);
+  }
+  
+}  
+
+
+//
+//  Display help if there are no arguments
+//
+if (program.args.length == 0) {
+  program.help();
+  process.exit();
+}
+
+
+var data = {};
+
+
+
+var fileExists = fs.existsSync(program.args[0]);
+
+if (fileExists) {
+  
+  data = fs.readFileSync(program.args[0], { encoding: "utf8" });
+  data = JSON.parse(data);
+
+
+  //
+  //  If only source file is specified, display data and exit
+  //
+  if (program.args.length == 1) {
+    display(data);
+    process.exit();
+  }
+
+
+  //
+  //  If only key is supplied, get value and exit
+  //
+  if (program.args.length == 2) {
+    var value = json.get(data, program.args[1]);
+    display(value);
+    process.exit();
+  }
+  
+}
+else {
+  
+  //
+  //  Exit now if there is no intention of modifying data
+  //
+  if (program.args.length <= 2) {
+    process.exit();
+  }
+    
+}
+
+
+//
+//  Set value if value is supplied
+//
+json.set(data, program.args[1], program.args[2]);
+
+
+
+//
+//  Write data to file
+//
+
+//  Support writing to new file
+var destFile = (program.args.length >= 4) ? program.args[3] : program.args[0];
+
+fs.writeFileSync(destFile, JSON.stringify(data, null, 2), { encoding: 'utf8' });
+
+

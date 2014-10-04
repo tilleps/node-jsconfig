@@ -1,0 +1,32 @@
+{
+  "name": "tilleps-jsconfig",
+  "version": "0.1.0",
+  "description": "Basic JSON config value getter/setter",
+  "main": "index.js",
+  "dependencies": {
+    "commander": "^2.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tilleps/node-jsconfig.git"
+  },
+  "keywords": [
+    "JSON",
+    "config",
+    "cli",
+    "simple"
+  ],
+  "author": "Eugene Song <tilleps@gmail.com> (https://github.com/tilleps/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tilleps/node-jsconfig/issues"
+  },
+  "homepage": "https://github.com/tilleps/node-jsconfig",
+  "bin": {
+    "jsconfig": "./bin/jsconfig"
+  }
+}
